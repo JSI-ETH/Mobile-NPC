@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using MobileNPC.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ZXing.Net.Mobile.Forms;
@@ -11,6 +12,7 @@ namespace MobileNPC.Views
     [DesignTimeVisible(false)]
     public partial class AboutPage : ZXingScannerPage
     {
+        private readonly IDataStore<Models.Item> _dataStore = DependencyService.Get<IDataStore<Models.Item>>();
         public AboutPage()
         {
             InitializeComponent();
@@ -21,8 +23,12 @@ namespace MobileNPC.Views
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-                //await Navigation.PushModalAsync(new AboutPage());
-                await DisplayAlert($"Scanned Result\n", $"Format:{result.BarcodeFormat}\nMetadata{result.ResultMetadata}\n{result.Text}", "OK");
+                var gtin = result.Text;
+                var selectedItem = await _dataStore.GetItemAsync(gtin);
+                if(selectedItem != null)
+                    await Navigation.PushModalAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
+                else
+                    await DisplayAlert("Oops!",$"The item with the specified GTIN `{result.Text}` could not be found. Please try again!", "OK");
             });
             IsScanning = !IsScanning;
         }
