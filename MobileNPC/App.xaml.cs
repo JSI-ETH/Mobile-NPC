@@ -9,12 +9,22 @@ namespace MobileNPC
 {
     public partial class App : Application
     {
+
+        // TODO: Move this to secure storage
+        public static class AkeneoConfig
+        {
+            public static string AkeneoUrl = "https://ethiopia-demo.productcatalog.io";
+            public static string Username = "admin";
+            public static string Password = "Admin123";
+            public static string ClientId = "1_c2vn1cpyyego80kkk8sw0w8wg8scss8s4so8c4o8s04gs0wwo";
+            public static string ClientSecret = "1gcb5nxg4cn40c84g04wkg8gokgs4k48sow0soows8c84wk8c4";
+        }
         //TODO: Replace with *.azurewebsites.net url after deploying backend to Azure
         //To debug on Android emulators run the web backend against .NET Core not IIS
         //If using other emulators besides stock Google images you may need to adjust the IP address
         public static string AzureBackendUrl =
             DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000" : "http://localhost:5000";
-        public static bool UseMockDataStore = true;
+        public static bool UseMockDataStore = false;
 
         public App()
         {
@@ -23,7 +33,7 @@ namespace MobileNPC
             if (UseMockDataStore)
                 DependencyService.Register<MockDataStore>();
             else
-                DependencyService.Register<AzureDataStore>();
+                DependencyService.Register<AkeneoDataStore>();
             MainPage = new MainPage();
         }
 
