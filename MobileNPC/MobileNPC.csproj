@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="microsoft.appcenter" Version="3.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="3.4.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="3.4.0" />
     <PackageReference Include="microsoft.appcenter.distribute" Version="3.4.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.7.0.1260" />

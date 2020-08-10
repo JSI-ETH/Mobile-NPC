@@ -7,6 +7,7 @@ using MobileNPC.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Distribute;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Analytics;
 
 namespace MobileNPC
 {
@@ -42,7 +43,9 @@ namespace MobileNPC
 
         protected override void OnStart()
         {
-            AppCenter.Start("ios=b445c49d-aa72-4c2b-a2c5-c089b187be65;android=fd832c59-79e5-411d-ae7e-8374db42b146;", typeof(Distribute), typeof(Crashes));
+            AppCenter.Start("android=fd832c59-79e5-411d-ae7e-8374db42b146;" +
+                  "ios=b445c49d-aa72-4c2b-a2c5-c089b187be65",
+                  typeof(Analytics), typeof(Crashes), typeof(Distribute));
         }
 
         protected override void OnSleep()
