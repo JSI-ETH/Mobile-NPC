@@ -14,14 +14,23 @@ namespace MobileNPC
     public partial class App : Application
     {
 
+        public static class EnvironmentVariables
+        {
+            public const string AkeneoUrl = "AKENEO_URL";
+            public const string Username = "AKENEO_USERNAME";
+            public const string Password = "AKENEO_PASSWORD";
+            public const string ClientId = "AKENEO_CLIENT_ID";
+            public const string ClientSecret = "AKENEO_CLIENT_SECRET";
+        }
+
         // TODO: Move this to secure storage
         public static class AkeneoConfig
         {
-            public static string AkeneoUrl = "https://ethiopia-demo.productcatalog.io";
-            public static string Username = "admin";
-            public static string Password = "Admin123";
-            public static string ClientId = "1_c2vn1cpyyego80kkk8sw0w8wg8scss8s4so8c4o8s04gs0wwo";
-            public static string ClientSecret = "1gcb5nxg4cn40c84g04wkg8gokgs4k48sow0soows8c84wk8c4";
+            public static string AkeneoUrl = Environment.GetEnvironmentVariable(EnvironmentVariables.AkeneoUrl);
+            public static string Username = Environment.GetEnvironmentVariable(EnvironmentVariables.Username);
+            public static string Password = Environment.GetEnvironmentVariable(EnvironmentVariables.Password);
+            public static string ClientId = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientId);
+            public static string ClientSecret = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientSecret);
         }
         //TODO: Replace with *.azurewebsites.net url after deploying backend to Azure
         //To debug on Android emulators run the web backend against .NET Core not IIS
