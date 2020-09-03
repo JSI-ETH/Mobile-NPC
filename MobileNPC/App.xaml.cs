@@ -8,6 +8,8 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Distribute;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MobileNPC
 {
@@ -21,6 +23,7 @@ namespace MobileNPC
             public const string Password = "AKENEO_PASSWORD";
             public const string ClientId = "AKENEO_CLIENT_ID";
             public const string ClientSecret = "AKENEO_CLIENT_SECRET";
+            public const string Categories = "AKENEO_CATEGORIES";
         }
 
         // TODO: Move this to secure storage
@@ -31,6 +34,7 @@ namespace MobileNPC
             public static string Password = Environment.GetEnvironmentVariable(EnvironmentVariables.Password);
             public static string ClientId = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientId);
             public static string ClientSecret = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientSecret);
+            public static IEnumerable<string> Categories = Environment.GetEnvironmentVariable(EnvironmentVariables.Categories)?.Split(',').ToList() ?? new List<string>();
         }
         //TODO: Replace with *.azurewebsites.net url after deploying backend to Azure
         //To debug on Android emulators run the web backend against .NET Core not IIS

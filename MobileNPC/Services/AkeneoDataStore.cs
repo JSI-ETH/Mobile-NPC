@@ -13,9 +13,11 @@ namespace MobileNPC.Services
     public class AkeneoDataStore : IDataStore<Item>
     {
         private readonly IAkeneoClient _client;
+        private readonly IEnumerable<string> _categories;
 
         public AkeneoDataStore()
         {
+            _categories = App.AkeneoConfig.Categories;
             var options = new AkeneoOptions
             {
                 ApiEndpoint = new Uri(App.AkeneoConfig.AkeneoUrl),
@@ -45,12 +47,10 @@ namespace MobileNPC.Services
 
         async public Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
-            var products = await _client.SearchAsync<Product>(new List<Criteria>
-            {
-                // TODO: Remove this (limited to FamilyPlanning category)
-                Akeneo.Search.Category.In("FP"),
-            });
-           return products.GetItems().Select(ToItem);
+            var categories = _categories.Select(c => Akeneo.Search.Category.In(c));
+
+            var products = await _client.SearchAsync<Product>(categories);
+            return products.GetItems().Select(ToItem);
         }
 
         public Task<bool> UpdateItemAsync(Item item)
