@@ -64,11 +64,11 @@ namespace MobileNPC.Services
             if (product == null) return null;
             var item = new Item();
             item.Id = product.Identifier;
-            item.BrandName = product.Values.TryGetValue(Constants.ProductAttributes.BrandName, out brandName) ? brandName.FirstOrDefault()?.Data?.ToString() : "N/A";
+            item.BrandName = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.BrandName, out brandName) ? brandName.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.Text = item.BrandName;
             item.Description = product.Identifier;
-            item.FunctionalName = product.Values.TryGetValue(Constants.ProductAttributes.FunctionalName, out functionalName) ? functionalName.FirstOrDefault()?.Data?.ToString() : "N/A";
-            item.Manufacturer = product.Values.TryGetValue(Constants.ProductAttributes.ManufacturerGLN, out manufacturer) ? manufacturer.FirstOrDefault()?.Data?.ToString() : "N/A";
+            item.FunctionalName = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.FunctionalName, out functionalName) ? functionalName.FirstOrDefault()?.Data?.ToString() : "N/A";
+            item.Manufacturer = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Manufacturer, out manufacturer) ? manufacturer.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.GTIN = product.Identifier;
             return item;
         }
