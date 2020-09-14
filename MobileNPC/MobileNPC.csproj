@@ -27,5 +27,6 @@
   <ItemGroup>
     <Folder Include="CQRS\" />
     <Folder Include="Configuration\" />
+    <Folder Include="Core\" />
   </ItemGroup>
 </Project>

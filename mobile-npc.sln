@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileNPC.UITests", "Mobile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileNPC", "MobileNPC\MobileNPC.csproj", "{B337B613-4686-4374-90EE-2BE4BD48ABB3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1CEE3161-1DA9-4EDB-AE14-000029AC3B9C}"
+	ProjectSection(SolutionItems) = preProject
+		appcenter-pre-build.sh = appcenter-pre-build.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -32,14 +32,12 @@ namespace MobileNPC
         // TODO: Move this to secure storage
         public static class AkeneoConfig
         {
-            public static string AkeneoUrl = Environment.GetEnvironmentVariable(EnvironmentVariables.AkeneoUrl);
-            public static string Username = Environment.GetEnvironmentVariable(EnvironmentVariables.Username);
-            public static string Password = Environment.GetEnvironmentVariable(EnvironmentVariables.Password);
-            public static string ClientId = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientId);
-            public static string ClientSecret = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientSecret);
-            public static IEnumerable<string> Categories = Environment.GetEnvironmentVariable(EnvironmentVariables.Categories)?.Split(',').ToList() ?? new List<string>();
-            public static string AkeneoFamily = Environment.GetEnvironmentVariable(EnvironmentVariables.Family);
-            public static string AkeneoConfigUrl = Environment.GetEnvironmentVariable(EnvironmentVariables.AkeneoConfigUrl);
+            public static string AkeneoUrl = Core.AppConstants.AkeneoUrl;
+            public static string Username = Core.AppConstants.Username;
+            public static string Password = Core.AppConstants.Password;
+            public static string ClientId = Core.AppConstants.ClientId;
+            public static string ClientSecret = Core.AppConstants.ClientSecret;
+            public static string AkeneoConfigUrl = Core.AppConstants.AkeneoConfigUrl;
             public static AppConfiguration Configuration;
         }
         //TODO: Replace with *.azurewebsites.net url after deploying backend to Azure
@@ -51,7 +49,10 @@ namespace MobileNPC
 
         public App()
         {
+            #region Akeneo Configuration           
             AkeneoConfig.Configuration = AppConfiguration.Create(AkeneoConfig.AkeneoConfigUrl);
+            #endregion
+
             InitializeComponent();
 
             if (UseMockDataStore)
