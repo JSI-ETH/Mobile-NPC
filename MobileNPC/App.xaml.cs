@@ -10,6 +10,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
 using System.Linq;
+using MobileNPC.Configuration;
 
 namespace MobileNPC
 {
