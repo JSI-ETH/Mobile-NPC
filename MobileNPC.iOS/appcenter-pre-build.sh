@@ -1,6 +1,8 @@
 ﻿#!/usr/bin/env bash
 #
 
+echo "Prebuild script running..."
+
 if [ -z "$AKENEO_URL" ]
 then
     echo "You need define the $AKENEO_URL variable in App Center"
@@ -33,6 +35,8 @@ then
 fi
 
 APP_CONSTANT_FILE=$APPCENTER_SOURCE_DIRECTORY/MobileNPC/Core/AppConstants.cs
+
+echo "AppConstants file $APP_CONSTANT_FILE"
 
 if [ -e "$APP_CONSTANT_FILE" ]
 then
