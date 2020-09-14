@@ -14,10 +14,10 @@ namespace MobileNPC.Services
     {
         private readonly IAkeneoClient _client;
         private readonly IEnumerable<string> _categories;
+        private readonly string _akeneoFamily;
 
         public AkeneoDataStore()
         {
-            _categories = App.AkeneoConfig.Categories;
             var options = new AkeneoOptions
             {
                 ApiEndpoint = new Uri(App.AkeneoConfig.AkeneoUrl),
@@ -27,6 +27,7 @@ namespace MobileNPC.Services
                 Password = App.AkeneoConfig.Password
             };
             _client = new AkeneoClient(options);
+            _akeneoFamily = App.AkeneoConfig.Configuration.Family;
         }
 
         public Task<bool> AddItemAsync(Item item)
@@ -47,9 +48,8 @@ namespace MobileNPC.Services
 
         async public Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
-            var categories = _categories.Select(c => Akeneo.Search.Category.In(c));
-
-            var products = await _client.SearchAsync<Product>(categories);
+            var family = Akeneo.Search.Family.In(_akeneoFamily);
+            var products = await _client.SearchAsync<Product>(new List<Criteria> { family });
             return products.GetItems().Select(ToItem);
         }
 

@@ -24,6 +24,8 @@ namespace MobileNPC
             public const string ClientId = "AKENEO_CLIENT_ID";
             public const string ClientSecret = "AKENEO_CLIENT_SECRET";
             public const string Categories = "AKENEO_CATEGORIES";
+            public const string Family = "AKENEO_FAMILY";
+            public const string AkeneoConfigUrl = "AKENEO_CONFIG_URL";
         }
 
         // TODO: Move this to secure storage
@@ -35,6 +37,9 @@ namespace MobileNPC
             public static string ClientId = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientId);
             public static string ClientSecret = Environment.GetEnvironmentVariable(EnvironmentVariables.ClientSecret);
             public static IEnumerable<string> Categories = Environment.GetEnvironmentVariable(EnvironmentVariables.Categories)?.Split(',').ToList() ?? new List<string>();
+            public static string AkeneoFamily = Environment.GetEnvironmentVariable(EnvironmentVariables.Family);
+            public static string AkeneoConfigUrl = Environment.GetEnvironmentVariable(EnvironmentVariables.AkeneoConfigUrl);
+            public static AppConfiguration Configuration;
         }
         //TODO: Replace with *.azurewebsites.net url after deploying backend to Azure
         //To debug on Android emulators run the web backend against .NET Core not IIS
@@ -45,6 +50,7 @@ namespace MobileNPC
 
         public App()
         {
+            AkeneoConfig.Configuration = AppConfiguration.Create(AkeneoConfig.AkeneoConfigUrl);
             InitializeComponent();
 
             if (UseMockDataStore)
@@ -56,8 +62,8 @@ namespace MobileNPC
 
         protected override void OnStart()
         {
-            AppCenter.Start("android=fd832c59-79e5-411d-ae7e-8374db42b146;" +
-                  "ios=b445c49d-aa72-4c2b-a2c5-c089b187be65",
+            AppCenter.Start("android=2978adb1-3a4b-4c3f-89fc-22cdd61d0c9c;" +
+                  "ios=4675c0bf-7208-4873-969a-235251ceb5b0;",
                   typeof(Analytics), typeof(Crashes), typeof(Distribute));
         }
 
