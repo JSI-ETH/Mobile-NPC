@@ -6,8 +6,9 @@ using Akeneo;
 using Akeneo.Client;
 using Akeneo.Model;
 using Akeneo.Search;
+using Microsoft.AppCenter.Crashes;
 using MobileNPC.Models;
-
+using ServiceStack;
 namespace MobileNPC.Services
 {
     public class AkeneoDataStore : IDataStore<Item>
@@ -18,15 +19,31 @@ namespace MobileNPC.Services
 
         public AkeneoDataStore()
         {
-            var options = new AkeneoOptions
+            string optionsJson = string.Empty;
+            try
             {
-                ApiEndpoint = new Uri(App.AkeneoConfig.AkeneoUrl),
-                ClientId = App.AkeneoConfig.ClientId,
-                ClientSecret = App.AkeneoConfig.ClientSecret,
-                UserName = App.AkeneoConfig.Username,
-                Password = App.AkeneoConfig.Password
-            };
-            _client = new AkeneoClient(options);
+                var options = new AkeneoOptions
+                {
+                    ApiEndpoint = new Uri(App.AkeneoConfig.AkeneoUrl),
+                    ClientId = App.AkeneoConfig.ClientId,
+                    ClientSecret = App.AkeneoConfig.ClientSecret,
+                    UserName = App.AkeneoConfig.Username,
+                    Password = App.AkeneoConfig.Password
+                };
+                optionsJson = options.ToJson();
+                _client = new AkeneoClient(options);
+            }
+            catch (Exception ex)
+            {
+                Crashes.TrackError(ex);
+                var properties = new Dictionary<string, string> {
+                    { "options", optionsJson},
+                    { "ApiEndpoint", App.AkeneoConfig.AkeneoUrl }
+                };
+                Crashes.TrackError(ex, properties);
+                throw ex;
+            }
+            
             _akeneoFamily = App.AkeneoConfig.Configuration.Family;
         }
 
