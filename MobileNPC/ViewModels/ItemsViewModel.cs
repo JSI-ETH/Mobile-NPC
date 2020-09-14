@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using MobileNPC.Models;
 using MobileNPC.Views;
+using Microsoft.AppCenter.Crashes;
 
 namespace MobileNPC.ViewModels
 {
@@ -44,6 +45,7 @@ namespace MobileNPC.ViewModels
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 Debug.WriteLine(ex);
             }
             finally

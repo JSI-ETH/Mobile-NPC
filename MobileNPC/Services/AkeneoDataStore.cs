@@ -60,13 +60,17 @@ namespace MobileNPC.Services
 
         static Item ToItem(Product product)
         {
-            return product == null ? null : new Item
-            {
-                Id = product.Identifier,
-                Text = product.Values[Constants.ProductAttributes.BrandName]?.FirstOrDefault()?.Data?.ToString(),
-                Description = product.Identifier,
-                Product = product
-            };
+            List<Akeneo.Model.ProductValue> brandName, functionalName, manufacturer;
+            if (product == null) return null;
+            var item = new Item();
+            item.Id = product.Identifier;
+            item.BrandName = product.Values.TryGetValue(Constants.ProductAttributes.BrandName, out brandName) ? brandName.FirstOrDefault()?.Data?.ToString() : "N/A";
+            item.Text = item.BrandName;
+            item.Description = product.Identifier;
+            item.FunctionalName = product.Values.TryGetValue(Constants.ProductAttributes.FunctionalName, out functionalName) ? functionalName.FirstOrDefault()?.Data?.ToString() : "N/A";
+            item.Manufacturer = product.Values.TryGetValue(Constants.ProductAttributes.ManufacturerGLN, out manufacturer) ? manufacturer.FirstOrDefault()?.Data?.ToString() : "N/A";
+            item.GTIN = product.Identifier;
+            return item;
         }
     }
 }
