@@ -1,13 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MobileNPC.Views.ItemDetailPage" Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Brand Name:" FontSize="Small" />
-        <Label Text="{Binding Item.Text}" d:Text="Item name" FontSize="Medium" />
-        <Label Text="GTIN:" FontSize="Small" />
-        <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Medium" />
-        <Label Text="Functional Name" FontSize="Small" />
-        <Label Text="{Binding Item.FunctionalName}" d:Text="Functional Name" FontSize="Medium" />
-        <Label Text="Manufacturer" FontSize="Small" />
-        <Label Text="{Binding Item.Manufacturer}" d:Text="Manufacturer" FontSize="Medium" />
-    </StackLayout>
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Brand Name:" FontSize="Small" />
+            <Label Text="{Binding Item.Text}" d:Text="Item name" FontSize="Medium" />
+            <Label Text="GTIN:" FontSize="Small" />
+            <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Medium" />
+            <Label Text="Functional Name" FontSize="Small" />
+            <Label Text="{Binding Item.FunctionalName}" d:Text="Functional Name" FontSize="Medium" />
+            <Label Text="Manufacturer" FontSize="Small" />
+            <Label Text="{Binding Item.Manufacturer}" d:Text="Manufacturer" FontSize="Medium" />
+            <Image x:Name="itemImage" Source="{Binding Item.Source[0]}"
+                   HeightRequest="300" />
+            <Button Text="Click to view next Image"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="OnButtonClicked" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

@@ -35,5 +35,19 @@ namespace MobileNPC.Views
             viewModel = new ItemDetailViewModel(item);
             BindingContext = viewModel;
         }
+
+        void OnButtonClicked(object sender, EventArgs args)
+        {
+            viewModel.Item.Current += 1;
+
+            if (viewModel.Item.Current >= viewModel.Item.Source.Length)
+            {
+                viewModel.Item.Current = 0;
+            }
+
+            itemImage.Source = "";
+            itemImage.Source = ImageSource
+                    .FromUri(new Uri(viewModel.Item.Source[viewModel.Item.Current]));
+        }
     }
 }
