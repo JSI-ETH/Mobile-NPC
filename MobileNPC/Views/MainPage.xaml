@@ -14,7 +14,7 @@
         <NavigationPage Title="Scan">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png" />
+                    <On Platform="iOS" Value="barcode-scanner.png" />
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>

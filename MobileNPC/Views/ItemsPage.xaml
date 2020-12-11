@@ -1,8 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MobileNPC.Views.ItemsPage" Title="{Binding Title}" x:Name="BrowseItemsPage">
-    <ContentPage.ToolbarItems>
+    
+        <ContentPage.ToolbarItems>
         <!--<ToolbarItem Text="Search" Clicked="AddItem_Clicked" />-->
     </ContentPage.ToolbarItems>
+    <StackLayout Orientation="Vertical">
+        <!--<Grid Margin="2,2,2,2">
+            <Grid.RowDefinitions>
+            <RowDefinition  />
+        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <SearchBar Placeholder="Search" Grid.Column="0" />
+            <Picker Title="Categories"  Grid.Column="1" />
+        </Grid>-->
+        <!--<StackLayout Orientation="Horizontal">
+            <SearchBar Placeholder="Search" />
+            <Picker Title="Categories" />
+        </StackLayout>-->
+        <SearchBar Placeholder="Search" Grid.Column="0" />
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding LoadItemsCommand}">
         <CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Items}">
             <d:CollectionView.ItemsSource>
@@ -20,6 +38,7 @@
                     <StackLayout Padding="10">
                         <Label Text="{Binding Text}" d:Text="{Binding .}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                         <Label Text="{Binding Description}" d:Text="Item descripton" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                        <BoxView Color="Black" WidthRequest="100" HeightRequest="1" />
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnItemSelected">
                             </TapGestureRecognizer>
@@ -29,4 +48,6 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
     </RefreshView>
+    </StackLayout>
+    
 </ContentPage>
