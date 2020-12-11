@@ -15,6 +15,8 @@ namespace MobileNPC.ViewModels
     {
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public Command ShowItemDetailCommand { get; set; }
+        public Item SelectedItem { get; set; }
 
         public ItemsViewModel()
         {
@@ -28,6 +30,10 @@ namespace MobileNPC.ViewModels
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
+            MessagingCenter.Subscribe<AboutPage, Item>(this, "ItemScanned", async (obj, item) =>
+            {
+                SelectedItem = item as Item;
+            });
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -36,6 +42,7 @@ namespace MobileNPC.ViewModels
 
             try
             {
+                //TODO: If Searchbar is empty, load all. Otherwise load searched params
                 Items.Clear();
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)

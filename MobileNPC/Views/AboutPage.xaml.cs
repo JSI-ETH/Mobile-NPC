@@ -26,11 +26,25 @@ namespace MobileNPC.Views
                 var gtin = result.Text;
                 var selectedItem = await _dataStore.GetItemAsync(gtin);
                 if(selectedItem != null)
-                    await Navigation.PushModalAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
+                {
+                    //MessagingCenter.Send(this, "ItemScanned", selectedItem);
+                    await Navigation.PushAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
+                    //await Navigation.
+                    //await Navigation.PushAsync(new ItemsPage(new ViewModels.ItemDetailViewModel(selectedItem)));
+                }
+                    
                 else
-                    await DisplayAlert("Oops!",$"The item with the specified GTIN `{result.Text}` could not be found. Please try again!", "OK");
+                    await DisplayAlert("Sorry!",$"The item with the specified GTIN `{result.Text}` could not be found. Please try again!", "OK");
+               
             });
             IsScanning = !IsScanning;
+        }
+
+        
+        protected override bool OnBackButtonPressed()
+        {
+            IsScanning = true;
+            return base.OnBackButtonPressed();
         }
 
     }
