@@ -27,6 +27,13 @@ namespace MobileNPC.Views
             BindingContext = viewModel = new ItemsViewModel();
         }
 
+        public ItemsPage(ItemDetailViewModel itemDetail)
+        {
+            InitializeComponent();
+            BindingContext = viewModel = new ItemsViewModel();
+            Navigation.PushAsync(new ItemDetailPage(itemDetail)).Wait();
+        }
+
         async void OnItemSelected(object sender, EventArgs args)
         {
             var layout = (BindableObject)sender;

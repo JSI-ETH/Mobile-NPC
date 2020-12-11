@@ -5,5 +5,9 @@
         <Label Text="{Binding Item.Text}" d:Text="Item name" FontSize="Medium" />
         <Label Text="GTIN:" FontSize="Small" />
         <Label Text="{Binding Item.Description}" d:Text="Item description" FontSize="Medium" />
+        <Label Text="Functional Name" FontSize="Small" />
+        <Label Text="{Binding Item.FunctionalName}" d:Text="Functional Name" FontSize="Medium" />
+        <Label Text="Manufacturer" FontSize="Small" />
+        <Label Text="{Binding Item.Manufacturer}" d:Text="Manufacturer" FontSize="Medium" />
     </StackLayout>
 </ContentPage>
