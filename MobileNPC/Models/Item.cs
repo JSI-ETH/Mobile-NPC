@@ -11,6 +11,7 @@ namespace MobileNPC.Models
         public string GTIN { get; set; }
         public string FunctionalName { get; set; }
         public string Manufacturer { get; set; }
+        public string Image { get; set; }
         public Akeneo.Model.Product Product { get; set; }
     }
 }

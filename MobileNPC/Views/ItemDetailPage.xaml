@@ -9,5 +9,7 @@
         <Label Text="{Binding Item.FunctionalName}" d:Text="Functional Name" FontSize="Medium" />
         <Label Text="Manufacturer" FontSize="Small" />
         <Label Text="{Binding Item.Manufacturer}" d:Text="Manufacturer" FontSize="Medium" />
+        <Label Text="Images" FontSize="Small" />
+        <Image Source="{Binding Item.Image}"  />
     </StackLayout>
 </ContentPage>

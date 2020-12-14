@@ -14,7 +14,8 @@
         public static AppConfiguration Create(string configurationUri)
         {
             var client = new JsonServiceClient();
-            var appConfiguration = client.Get<AppConfiguration>(configurationUri);
+            var configUrl = "https://jsonblob.com/api/jsonBlob/64b8cc98-eec2-11ea-b1f3-9f94751b92dd";
+            var appConfiguration = client.Get<AppConfiguration>(configUrl);
             return appConfiguration;
         }
     }
@@ -25,6 +26,7 @@
         public string GTIN { get; set; }
         public string FunctionalName { get; set; }
         public string Manufacturer { get; set; }
+        public string Image { get; set; }
     }
 
     public class Category

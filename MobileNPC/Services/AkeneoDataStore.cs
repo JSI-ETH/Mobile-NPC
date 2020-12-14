@@ -24,7 +24,7 @@ namespace MobileNPC.Services
             {
                 var options = new AkeneoOptions
                 {
-                    ApiEndpoint = new Uri(App.AkeneoConfig.AkeneoUrl),
+                    ApiEndpoint = new Uri("https://npc.sandboxaddis.com"),
                     ClientId = App.AkeneoConfig.ClientId,
                     ClientSecret = App.AkeneoConfig.ClientSecret,
                     UserName = App.AkeneoConfig.Username,
@@ -77,7 +77,7 @@ namespace MobileNPC.Services
 
         static Item ToItem(Product product)
         {
-            List<Akeneo.Model.ProductValue> brandName, functionalName, manufacturer;
+            List<Akeneo.Model.ProductValue> brandName, functionalName, manufacturer, image;
             if (product == null) return null;
             var item = new Item();
             item.Id = product.Identifier;
@@ -87,6 +87,7 @@ namespace MobileNPC.Services
             item.FunctionalName = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.FunctionalName, out functionalName) ? functionalName.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.Manufacturer = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Manufacturer, out manufacturer) ? manufacturer.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.GTIN = product.Identifier;
+            item.Image = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Image, out image) ? image.FirstOrDefault()?.Data?.ToString() : "https://i.ibb.co/42zVPjq/unavailable-image.jpg";
             return item;
         }
     }
