@@ -87,7 +87,7 @@ namespace MobileNPC.Services
             item.FunctionalName = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.FunctionalName, out functionalName) ? functionalName.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.Manufacturer = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Manufacturer, out manufacturer) ? manufacturer.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.GTIN = product.Identifier;
-            item.Image = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Image, out image) ? image.FirstOrDefault()?.Data?.ToString() : "https://i.ibb.co/SRxcW0F/2020-12-14-17-10-03.jpg";
+            item.Image = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Image, out image) ? image.FirstOrDefault()?.Data?.ToString() : "https://i.ibb.co/42zVPjq/unavailable-image.jpg";
             return item;
         }
     }
