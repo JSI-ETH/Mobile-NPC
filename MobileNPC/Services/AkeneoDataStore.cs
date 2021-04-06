@@ -9,6 +9,7 @@ using Akeneo.Search;
 using Microsoft.AppCenter.Crashes;
 using MobileNPC.Models;
 using ServiceStack;
+using SearchQueryBuilder = MobileNPC.Filtering.SearchQueryBuilder;
 namespace MobileNPC.Services
 {
     public class AkeneoDataStore : IDataStore<Item>
@@ -16,7 +17,7 @@ namespace MobileNPC.Services
         private readonly IAkeneoClient _client;
         private readonly IEnumerable<string> _categories;
         private readonly string _akeneoFamily;
-
+        private readonly SearchQueryBuilder _searchQueryBuilder;
         public AkeneoDataStore()
         {
             string optionsJson = string.Empty;
@@ -32,6 +33,7 @@ namespace MobileNPC.Services
                 };
                 optionsJson = options.ToJson();
                 _client = new AkeneoClient(options);
+                _searchQueryBuilder = new SearchQueryBuilder();
             }
             catch (Exception ex)
             {
@@ -66,7 +68,9 @@ namespace MobileNPC.Services
         async public Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
             var family = Akeneo.Search.Family.In(_akeneoFamily);
-            var products = await _client.SearchAsync<Product>(new List<Criteria> { family });
+            var queryString = _searchQueryBuilder.GetQueryString(new List<Criteria> { family });
+            queryString = $"{queryString}&page={1}&limit={100}&with_count={true.ToString().ToLower()}";
+            var products = await _client.FilterAsync<Product>(queryString);
             return products.GetItems().Select(ToItem);
         }
 
@@ -77,7 +81,7 @@ namespace MobileNPC.Services
 
         static Item ToItem(Product product)
         {
-            List<Akeneo.Model.ProductValue> brandName, functionalName, manufacturer;
+            List<Akeneo.Model.ProductValue> brandName, functionalName, manufacturer, image;
             if (product == null) return null;
             var item = new Item();
             item.Id = product.Identifier;
@@ -87,6 +91,19 @@ namespace MobileNPC.Services
             item.FunctionalName = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.FunctionalName, out functionalName) ? functionalName.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.Manufacturer = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Manufacturer, out manufacturer) ? manufacturer.FirstOrDefault()?.Data?.ToString() : "N/A";
             item.GTIN = product.Identifier;
+            item.Image = "https://i.ibb.co/42zVPjq/unavailable-image.jpg";
+            var hasImage = product.Values.TryGetValue(App.AkeneoConfig.Configuration.Attributes.Image, out image);
+            if(hasImage)
+            {
+                var url = image.FirstOrDefault()?.Data?.ToString();
+                if(url != null)
+                {
+                    var path = $"media/cache/preview/{url}";
+                    var builder = new UriBuilder(App.AkeneoConfig.AkeneoUrl);
+                    builder.Path = path;
+                    item.Image = $"{builder.Uri}";
+                }
+            }
             return item;
         }
     }

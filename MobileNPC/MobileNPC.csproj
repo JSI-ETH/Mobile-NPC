@@ -28,5 +28,6 @@
     <Folder Include="CQRS\" />
     <Folder Include="Configuration\" />
     <Folder Include="Core\" />
+    <Folder Include="Filtering\" />
   </ItemGroup>
 </Project>
