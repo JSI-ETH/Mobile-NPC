@@ -8,7 +8,6 @@ using Akeneo.Model;
 using Akeneo.Search;
 using Microsoft.AppCenter.Crashes;
 using MobileNPC.Models;
-using ServiceStack;
 using SearchQueryBuilder = MobileNPC.Filtering.SearchQueryBuilder;
 namespace MobileNPC.Services
 {
@@ -31,7 +30,6 @@ namespace MobileNPC.Services
                     UserName = App.AkeneoConfig.Username,
                     Password = App.AkeneoConfig.Password
                 };
-                optionsJson = options.ToJson();
                 _client = new AkeneoClient(options);
                 _searchQueryBuilder = new SearchQueryBuilder();
             }

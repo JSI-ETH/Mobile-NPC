@@ -2,8 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using ServiceStack;
-
+    using System.IO;
+    using System.Net.Http;
+    using Newtonsoft.Json;
     public class AppConfiguration
     {
         const string JsonBlobBaseUrl = "https://jsonblob.com";
@@ -13,9 +14,19 @@
 
         public static AppConfiguration Create(string configurationUri)
         {
-            var client = new JsonServiceClient();
-            var appConfiguration = client.Get<AppConfiguration>(configurationUri);
-            return appConfiguration;
+            var client = new HttpClient();
+            var response = client.GetAsync(configurationUri).Result;
+            response.EnsureSuccessStatusCode();
+            var contentStream = response.Content.ReadAsStreamAsync().Result;
+            using (var streamReader = new StreamReader(contentStream))
+            {
+                using (var jsonReader = new JsonTextReader(streamReader))
+                {
+                    var serializer = new JsonSerializer();
+                    var appConfiguration = serializer.Deserialize<AppConfiguration>(jsonReader);
+                    return appConfiguration;
+                }
+            }
         }
     }
 
