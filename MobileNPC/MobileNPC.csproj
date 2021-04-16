@@ -22,7 +22,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Akeneo.NET" Version="0.1.14" />
     <PackageReference Include="MediatR" Version="8.1.0" />
-    <PackageReference Include="ServiceStack.Client" Version="5.9.2" />
+    <PackageReference Include="ServiceStack.Client" Version="5.10.4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CQRS\" />
