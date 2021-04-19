@@ -12,14 +12,14 @@
             </x:Arguments>
         </NavigationPage>-->
         <NavigationPage Title="Scan">
+            <x:Arguments>
+                <views:HomePage />
+            </x:Arguments>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="barcode-scanner.png" />
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
-                <views:AboutPage />
-            </x:Arguments>
         </NavigationPage>
     </TabbedPage.Children>
 </TabbedPage>
