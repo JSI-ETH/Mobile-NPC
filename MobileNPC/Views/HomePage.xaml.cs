@@ -96,21 +96,12 @@ namespace MobileNPC.Views
 					{
 						await DisplayAlert("Scanned Barcode", result.Text, "OK");
 						await Navigation.PopAsync();
-						var selectedItem = await _dataStore.GetItemAsync(result.Text);
-
+						var gtin = result.Text;
+						var selectedItem = await _dataStore.GetItemAsync(gtin);
 						if (selectedItem != null)
 							await Navigation.PushAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
 						else
-						{
-							await Navigation.PushAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(new Models.Item
-							{
-								Text = "Test Item",
-								BrandName = "Pfizer",
-								GTIN = result.Text
-							})));
-						}
-
-
+							await DisplayAlert("Sorry!", $"The item with the specified GTIN `{result.Text}` could not be found. Please try again!", "OK");
 					});
 
 				await Navigation.PushAsync(scanPage);
