@@ -5,7 +5,6 @@ using Xamarin.Forms.Xaml;
 using MobileNPC.Services;
 using MobileNPC.Views;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Distribute;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;
