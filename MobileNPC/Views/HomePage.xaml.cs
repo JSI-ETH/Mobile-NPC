@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
 using MobileNPC.Services;
@@ -97,6 +98,15 @@ namespace MobileNPC.Views
 						await DisplayAlert("Scanned Barcode", result.Text, "OK");
 						await Navigation.PopAsync();
 						var gtin = result.Text;
+						if (gtin.Length != 13 || gtin.Length != 14)
+						{
+							var identifiers = GS1.Parse(gtin);
+							if (identifiers.Any(i => i.Key.AI == "01"))
+							{
+								var gtinIdentifier = identifiers.Single(i => i.Key.AI == "01");
+								gtin = gtinIdentifier.Value;
+							}
+						}
 						var selectedItem = await _dataStore.GetItemAsync(gtin);
 						if (selectedItem != null)
 							await Navigation.PushAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
