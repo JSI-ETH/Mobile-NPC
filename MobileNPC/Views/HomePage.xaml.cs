@@ -91,27 +91,44 @@ namespace MobileNPC.Views
 			};
 			buttonScanContinuously.Clicked += async delegate
 			{
-				scanPage = new ZXingScannerPage(new ZXing.Mobile.MobileBarcodeScanningOptions { DelayBetweenContinuousScans = 3000 });
+				scanPage = new ZXingScannerPage(new ZXing.Mobile.MobileBarcodeScanningOptions
+				{
+					DelayBetweenContinuousScans = 3000,
+					TryHarder = true,
+					AssumeGS1 = true,
+					AutoRotate = true,
+				});
 				scanPage.OnScanResult += (result) =>
 					Device.BeginInvokeOnMainThread(async () =>
 					{
-						await DisplayAlert("Scanned Barcode", result.Text, "OK");
+						//await DisplayAlert("Scanned Barcode", result.Text, "OK");
 						await Navigation.PopAsync();
-						var gtin = result.Text;
-						if (gtin.Length != 13 || gtin.Length != 14)
+						string gtin = string.Empty;
+						var barcode = result.Text;
+						var gtinRegEx = new System.Text.RegularExpressions.Regex("^(\\d{8}|\\d{12,14})$");
+						if (gtinRegEx.IsMatch(barcode))
+							gtin = barcode;
+						else
 						{
-							var identifiers = GS1.Parse(gtin);
+							var identifiers = GS1.Parse(barcode);
 							if (identifiers.Any(i => i.Key.AI == "01"))
 							{
 								var gtinIdentifier = identifiers.Single(i => i.Key.AI == "01");
-								gtin = gtinIdentifier.Value;
+								if (gtinRegEx.IsMatch(gtinIdentifier.Value))
+									gtin = gtinIdentifier.Value;
 							}
 						}
-						var selectedItem = await _dataStore.GetItemAsync(gtin);
-						if (selectedItem != null)
-							await Navigation.PushAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
+						if (string.IsNullOrEmpty(gtin))
+							await DisplayAlert("Error!", $"Could not parse GTIN from the supplied barcode! \n{barcode}", "OK");
 						else
-							await DisplayAlert("Sorry!", $"The item with the specified GTIN `{result.Text}` could not be found. Please try again!", "OK");
+                        {
+							var selectedItem = await _dataStore.GetItemAsync(gtin);
+							if (selectedItem != null)
+								await Navigation.PushAsync(new ItemDetailPage(new ViewModels.ItemDetailViewModel(selectedItem)));
+							else
+								await DisplayAlert("Sorry!", $"The item with the specified GTIN `{gtin}` could not be found. Please try again!", "OK");
+						}
+						
 					});
 
 				await Navigation.PushAsync(scanPage);
