@@ -197,7 +197,7 @@
         /// <param name="FNC1">Support a group seperator</param>
         public static void Add(string AI, string Description, int LengthOfAI, DataType DataDescription, int LengthOfData, bool FNC1)
         {
-            aiiDict[AI] = new AII(AI, Description, LengthOfAI, DataDescription, LengthOfData, FNC1);
+            aiiDict[AI] = new AII(AI, Description, LengthOfAI, DataDescription, LengthOfData, true);
         }
 
         /// <summary>
@@ -208,12 +208,20 @@
         /// <returns>The different parts of the ean128 code</returns>
         public static Dictionary<AII, string> Parse(string data, bool throwException = false)
         {
-            // cut off the EAN128 start code 
-            if (data.StartsWith(EAN128StartCode))
-                data = data.Substring(EAN128StartCode.Length);
-            // cut off the check sum
-            if (HasCheckSum)
-                data = data.Substring(0, data.Length - 2);
+            var gsChar = '';
+            var fncStartCodes = new List<string> { "]C1", "]e0", "]d2", "]Q3" };
+
+            // cut off the GS1 start codes 
+            if (fncStartCodes.Any(c => data.StartsWith(c)))
+                data = data.Substring(3);
+
+            // Remove GS char
+            if (data.First() == gsChar)
+                data = data.Substring(1);
+
+            data = data.Replace(")", string.Empty);
+            data = data.Replace("(", string.Empty);
+
 
             Dictionary<AII, string> result = new Dictionary<AII, string>();
             int index = 0;
